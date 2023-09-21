@@ -15,7 +15,7 @@ class TestModel(models.Model):
     )
     check_box = fields.Boolean(default = False)
     simple_integer = fields.Integer(default = 50)
-    choises_selecction = fields.Selection(
+    choises_selection = fields.Selection(
         required = True,
         copy = False,
         selection = [
@@ -25,7 +25,12 @@ class TestModel(models.Model):
                 ('option 4', 'Option 4'),
             ],
         string = 'List of Choises',
-        default = 'option1'
+        default = 'option 1'
     )
     active_property = fields.Boolean(default = True)
     selling_price = fields.Float(required=True, readonly = True, copy = False)
+    entrie_tag = fields.Many2many('tag_model')
+    entrie_type = fields.Many2one('type_model', string="Entrie type")
+    buyer = fields.Many2one('res.users', string="buyer", copy=False)
+    salesman = fields.Many2one('res.users', default=lambda self: self.env.user)
+    

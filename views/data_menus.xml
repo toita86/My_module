@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <odoo>
-    <menuitem id="test_menu_root" name="Test">
-        <menuitem id="test_first_level_menu" name="First Level">
+    <menuitem id="test_menu_root" name="My module">
+        <menuitem id="test_first_level_menu" name="Entries">
             <menuitem id="test_model_menu_action" action="test_model_action" name="menu item 1"/>
+        </menuitem>
+        <menuitem id="types_first_level_menu" name="Types">
+            <menuitem id="types_model_menu_action" action="type_model_action" name="entry types"/>
+            <menuitem id="tags_model_menu_action" action="tag_model_action" name="entry tags"/>
         </menuitem>
     </menuitem>
 </odoo>

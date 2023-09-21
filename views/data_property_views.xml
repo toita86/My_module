@@ -1,8 +1,78 @@
 <?xml version="1.0"?>
 <odoo>
     <record id="test_model_action" model="ir.actions.act_window">
-        <field name="name">Test action</field>
+        <field name="name">List of entries</field>
         <field name="res_model">test_model</field>
         <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="test_model_tree_view" model="ir.ui.view">
+        <field name="name">test_model.tree</field>
+        <field name="model">test_model</field>
+        <field name="arch" type="xml">
+            <tree string="Tests">
+                <field name="name"/>
+                <field name="postcode"/>
+                <field name="selling_price"/>
+                <field name="simple_integer"/>
+                <field name="date_availability"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="test_model_view" model="ir.ui.view">
+        <field name="name">test_model.form</field>
+        <field name="model">test_model</field>
+        <field name="arch" type="xml">
+            <form string="test">
+                <sheet>
+                    <group>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <newline></newline>
+                        <group>
+                            <field name="entrie_tag" widget="many2many_tags"/>
+                            <field name="entrie_type"/>
+                            <field name="postcode"/>
+                            <field name="selling_price"/>
+                            <field name="simple_integer"/>
+                            <field name="date_availability"/>
+                        </group>
+                        <newline></newline>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="description"/>
+                                    <field name="choises_selection"/>
+                                    <field name="check_box"/>
+                                </group>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <field name="buyer"/>
+                                    <field name="salesman"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="test_model_search_view" model="ir.ui.view">
+        <field name="name">test_model.search</field>
+        <field name="model">test_model</field>
+        <field name="arch" type="xml">
+            <search string="Tests">
+                <field name="name"/>
+                <field name="date_availability"/>
+                <group expand="2" string="Group By">
+                    <filter string="By postcode" name="Postal code" context="{'group_by':'postcode'}"/>
+                    <filter string="By check box" name="Check Box" domain="[('check_box', '=', True)]"/>
+                </group>
+            </search>
+        </field>
     </record>
 </odoo>

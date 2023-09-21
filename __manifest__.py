@@ -11,5 +11,9 @@
         
         'views/data_property_views.xml',
         'views/data_menus.xml',
+
+        'views/type_property_views.xml',
+
+        'views/tag_property_views.xml'
     ]
 }
