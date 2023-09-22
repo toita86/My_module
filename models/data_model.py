@@ -29,8 +29,10 @@ class TestModel(models.Model):
     )
     active_property = fields.Boolean(default = True)
     selling_price = fields.Float(required=True, readonly = True, copy = False)
-    entrie_tag = fields.Many2many('tag_model')
-    entrie_type = fields.Many2one('type_model', string="Entrie type")
-    buyer = fields.Many2one('res.users', string="buyer", copy=False)
-    salesman = fields.Many2one('res.users', default=lambda self: self.env.user)
+    #Relations
+    entrie_tag_ids = fields.Many2many('tag_model')
+    entrie_type_id = fields.Many2one('type_model', string="Entrie type")
+    buyer_id = fields.Many2one('res.users', string="buyer", copy=False)
+    salesman_id = fields.Many2one('res.users', default=lambda self: self.env.user)
+    offers_ids = fields.One2many('offers_model','property_id', string = "Offers")
     

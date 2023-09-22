@@ -32,9 +32,11 @@
                         </h1>
                         <newline></newline>
                         <group>
-                            <field name="entrie_tag" widget="many2many_tags"/>
-                            <field name="entrie_type"/>
+                            <field name="entrie_tag_ids" widget="many2many_tags"/>
+                            <field name="entrie_type_id"/>
                             <field name="postcode"/>
+                        </group>
+                        <group>
                             <field name="selling_price"/>
                             <field name="simple_integer"/>
                             <field name="date_availability"/>
@@ -48,10 +50,13 @@
                                     <field name="check_box"/>
                                 </group>
                             </page>
+                            <page string="Offers">
+                                <field name="offers_ids"/>
+                            </page>
                             <page string="Other Info">
                                 <group>
-                                    <field name="buyer"/>
-                                    <field name="salesman"/>
+                                    <field name="buyer_id"/>
+                                    <field name="salesman_id"/>
                                 </group>
                             </page>
                         </notebook>

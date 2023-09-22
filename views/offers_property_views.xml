@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="offers_model_tree_view" model="ir.ui.view">
+            <field name="name">offers_model.tree</field>
+            <field name="model">offers_model</field>
+            <field name="arch" type="xml">
+                <tree string="Tests">
+                    <field name="price"/>
+                    <field name="partner_id"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+    </record>
+</odoo>

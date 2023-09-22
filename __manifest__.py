@@ -14,6 +14,8 @@
 
         'views/type_property_views.xml',
 
-        'views/tag_property_views.xml'
+        'views/tag_property_views.xml',
+
+        'views/offers_property_views.xml'
     ]
 }
