@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from odoo import models, fields
+from odoo import api, models, fields
 
 
 class TestModel(models.Model):
@@ -14,7 +14,6 @@ class TestModel(models.Model):
         default=lambda self:(datetime.now() + timedelta(days=90)).date()
     )
     check_box = fields.Boolean(default = False)
-    simple_integer = fields.Integer(default = 50)
     choises_selection = fields.Selection(
         required = True,
         copy = False,
@@ -35,4 +34,24 @@ class TestModel(models.Model):
     buyer_id = fields.Many2one('res.users', string="buyer", copy=False)
     salesman_id = fields.Many2one('res.users', default=lambda self: self.env.user)
     offers_ids = fields.One2many('offers_model','property_id', string = "Offers")
-    
+    #compute
+    simple_integer = fields.Integer(default = 50)
+    simple_integer_2 = fields.Integer(default = 150)
+    total_computation = fields.Float(compute = "_compute_total")
+
+    @api.depends("simple_integer", "simple_integer_2")
+    def _compute_total(self):
+        for record in self:
+            record.total_computation = record.simple_integer + record.simple_integer_2
+
+    best_offer = fields.Float(compute="_compute_offers")
+
+    @api.depends("offers_ids.price")
+    def _compute_offers(self):
+        for record in self:
+            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)
+            
+            if max_offer.price:
+                record.best_offer = max_offer.price
+            else:
+                record.best_offer = 0.0

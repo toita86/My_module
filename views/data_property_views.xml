@@ -38,8 +38,9 @@
                         </group>
                         <group>
                             <field name="selling_price"/>
-                            <field name="simple_integer"/>
+                            <field name="best_offer"/>
                             <field name="date_availability"/>
+                            <field name="total_computation"/>
                         </group>
                         <newline></newline>
                         <notebook>
@@ -48,6 +49,8 @@
                                     <field name="description"/>
                                     <field name="choises_selection"/>
                                     <field name="check_box"/>
+                                    <field name="simple_integer"/>
+                                    <field name="simple_integer_2"/>
                                 </group>
                             </page>
                             <page string="Offers">
