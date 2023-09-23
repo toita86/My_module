@@ -49,9 +49,29 @@ class TestModel(models.Model):
     @api.depends("offers_ids.price")
     def _compute_offers(self):
         for record in self:
-            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)
-            
+            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)            
             if max_offer.price:
                 record.best_offer = max_offer.price
             else:
                 record.best_offer = 0.0
+
+    onchange_check_box = fields.Boolean()
+    onchange_integer = fields.Integer()
+    onchange_selection = fields.Selection(
+        selection = [
+                ('red','Red'),
+                ('blue', 'Blue'),
+                ('green','Green'),
+                ('magenta', 'Magenta'),
+            ],
+        string = 'List of colors',
+    )
+
+    @api.onchange("onchange_check_box")
+    def _onchange_check_box(self):
+        if self.onchange_check_box is True:
+            self.onchange_integer = 10
+            self.onchange_selection = 'green'
+        else:
+            self.onchange_integer = 0
+            self.onchange_selection = ''

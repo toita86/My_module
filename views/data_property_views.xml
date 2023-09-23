@@ -52,6 +52,11 @@
                                     <field name="simple_integer"/>
                                     <field name="simple_integer_2"/>
                                 </group>
+                                <group>
+                                    <field name="onchange_check_box"/>
+                                    <field name="onchange_integer"/>
+                                    <field name="onchange_selection"/>
+                                </group>
                             </page>
                             <page string="Offers">
                                 <field name="offers_ids"/>
