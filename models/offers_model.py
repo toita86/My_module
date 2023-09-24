@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class OffersModel(models.Model):
     _name = "offers_model"
     _description = "Offers Model"
- 
+
     validity_days = fields.Integer(default=7)
     partner_id = fields.Many2one('res.partner',required = False)
     property_id = fields.Many2one('test_model',required = True)
@@ -15,7 +15,7 @@ class OffersModel(models.Model):
                 ('accepted','Accepted'),
                 ('refused', 'Refused'),
             ],
-        string = 'List of Choises'
+        string = 'status'
     )
     price = fields.Float()
     create_date = fields.Date(default = lambda self:(datetime.now()))
@@ -23,7 +23,14 @@ class OffersModel(models.Model):
         compute = "_compute_deadline",
         inverse="_inverse_deadline"
     )
-
+    def action_confirm(self):
+        for record in self:
+            record.status = "accepted"
+        return True
+    def action_refuse(self):
+        for record in self:
+            record.status = "refused"
+        return True
     @api.depends('date_deadline','create_date', 'validity_days')
     def _compute_deadline(self):
         for record in self:

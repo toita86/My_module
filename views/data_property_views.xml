@@ -26,12 +26,17 @@
         <field name="arch" type="xml">
             <form string="test">
                 <sheet>
+                    <header>
+                        <button name="action_sold" type="object" string="SOLD"/>
+                        <button name="action_canceled" type="object" string="CANCEL"/>
+                    </header>
                     <group>
                         <h1>
                             <field name="name"/>
                         </h1>
                         <newline></newline>
                         <group>
+                            <field name="status"/>
                             <field name="entrie_tag_ids" widget="many2many_tags"/>
                             <field name="entrie_type_id"/>
                             <field name="postcode"/>

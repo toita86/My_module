@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from odoo import api, models, fields
+from odoo import api, models, fields, exceptions
 
 
 class TestModel(models.Model):
@@ -28,6 +28,26 @@ class TestModel(models.Model):
     )
     active_property = fields.Boolean(default = True)
     selling_price = fields.Float(required=True, readonly = True, copy = False)
+    #Buttons
+    status = fields.Selection(
+        selection = [
+                ('new','New'),
+                ('sold', 'Sold'),
+                ('canceled','Canceled'),
+            ],
+        string = 'staus',
+        default = 'new'
+    )
+    def action_sold(self):
+        for record in self:
+            if record.status == "canceled":
+                raise exceptions.AccessDenied(message='Cancelled entries cannot be sold')
+            record.status = "sold"
+        return True
+    def action_canceled(self):
+        for record in self:
+            record.status = "canceled"
+        return True
     #Relations
     entrie_tag_ids = fields.Many2many('tag_model')
     entrie_type_id = fields.Many2one('type_model', string="Entrie type")
@@ -49,7 +69,7 @@ class TestModel(models.Model):
     @api.depends("offers_ids.price")
     def _compute_offers(self):
         for record in self:
-            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)            
+            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)
             if max_offer.price:
                 record.best_offer = max_offer.price
             else:
