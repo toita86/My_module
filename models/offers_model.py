@@ -31,6 +31,7 @@ class OffersModel(models.Model):
         for record in self:
             record.status = "refused"
         return True
+    #Depends
     @api.depends('date_deadline','create_date', 'validity_days')
     def _compute_deadline(self):
         for record in self:
@@ -44,3 +45,9 @@ class OffersModel(models.Model):
             if record.create_date and record.date_deadline:
                 delta = record.date_deadline - record.create_date
                 record.validity_days = delta.days
+    #Costraint
+    _sql_constraints = [
+        ('check_price',
+        'CHECK(price > 0)',
+        'The price must be better than 0')
+        ]

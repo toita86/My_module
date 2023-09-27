@@ -5,3 +5,9 @@ class TagModel(models.Model):
     _description = "Tags for the entries"
 
     name = fields.Char(required=True, default = "Unknown")
+    #Costraint
+    _sql_constraints = [
+        ('check_tag_unique',
+        'unique(name)',
+        'The tag must be different')
+        ]

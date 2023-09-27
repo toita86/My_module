@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from odoo import api, models, fields, exceptions
+from odoo.exceptions import ValidationError
+from odoo.tools.float_utils import float_compare
 
 
 class TestModel(models.Model):
@@ -27,7 +29,7 @@ class TestModel(models.Model):
         default = 'option 1'
     )
     active_property = fields.Boolean(default = True)
-    selling_price = fields.Float(required=True, readonly = True, copy = False)
+    selling_price = fields.Float(required=True, copy = False)
     #Buttons
     status = fields.Selection(
         selection = [
@@ -71,6 +73,7 @@ class TestModel(models.Model):
         for record in self:
             max_offer = self.env['offers_model'].search([], order='price desc', limit=1)
             if max_offer.price:
+                record._check_best_offer()
                 record.best_offer = max_offer.price
             else:
                 record.best_offer = 0.0
@@ -95,3 +98,17 @@ class TestModel(models.Model):
         else:
             self.onchange_integer = 0
             self.onchange_selection = ''
+    #Costraint
+    _sql_constraints = [
+        ('check_simple_integer',
+        'CHECK(simple_integer > 0)',
+        'This integer must be better than 0')
+        ]
+
+    @api.constrains('best_offer', 'selling_price')
+    def _check_best_offer(self):
+        for record in self:
+            expected_price_90_percent = record.selling_price*(90/100)
+            compare_results = float_compare(record.best_offer, expected_price_90_percent, precision_digits=2)
+            if compare_results < 0:
+                raise ValidationError("The offer can't be lower then 90% of the selling price")
