@@ -71,11 +71,17 @@ class TestModel(models.Model):
     @api.depends("offers_ids.price")
     def _compute_offers(self):
         for record in self:
-            max_offer = self.env['offers_model'].search([], order='price desc', limit=1)
-            if max_offer.price:
-                record._check_best_offer()
+            max_offer = self.env['offers_model'].search(
+                [],
+                order='price desc', limit=1)
+            accepted_offers = self.env['offers_model'].search([(
+                'status', '=', 'accepted')
+            ])
+            if max_offer in accepted_offers:
                 record.best_offer = max_offer.price
+                record._check_best_offer()
             else:
+                record._check_best_offer()
                 record.best_offer = 0.0
 
     onchange_check_box = fields.Boolean()
@@ -108,7 +114,10 @@ class TestModel(models.Model):
     @api.constrains('best_offer', 'selling_price')
     def _check_best_offer(self):
         for record in self:
-            expected_price_90_percent = record.selling_price*(90/100)
-            compare_results = float_compare(record.best_offer, expected_price_90_percent, precision_digits=2)
+            expected_price_90_percent = record.selling_price*0.9
+            compare_results = float_compare(
+                record.best_offer,
+                expected_price_90_percent,
+                precision_digits=2)
             if compare_results < 0:
                 raise ValidationError("The offer can't be lower then 90% of the selling price")
