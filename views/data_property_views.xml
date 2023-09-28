@@ -25,20 +25,21 @@
         <field name="model">test_model</field>
         <field name="arch" type="xml">
             <form string="test">
+                <header>
+                    <button name="action_sold" type="object" states="new" string="SOLD"/>
+                    <button name="action_canceled" type="object" states="new,sold" string="CANCEL"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,sold,canceled"/>
+                </header>
                 <sheet>
-                    <header>
-                        <button name="action_sold" type="object" string="SOLD"/>
-                        <button name="action_canceled" type="object" string="CANCEL"/>
-                    </header>
                     <group>
                         <h1>
                             <field name="name"/>
                         </h1>
                         <newline></newline>
                         <group>
-                            <field name="status"/>
-                            <field name="entrie_tag_ids" widget="many2many_tags"/>
-                            <field name="entrie_type_id"/>
+                            <field name="state"/>
+                            <field name="entrie_tag_ids" widget="many2many_tags" options="{'color_field':'color'}"/>
+                            <field name="entrie_type_id" widget="mayn2one" options="{'no_create_edit': True}"/>
                             <field name="postcode"/>
                         </group>
                         <group>
@@ -56,6 +57,7 @@
                                     <field name="check_box"/>
                                     <field name="simple_integer"/>
                                     <field name="simple_integer_2"/>
+                                    <field name="active"/>
                                 </group>
                                 <group>
                                     <field name="onchange_check_box"/>

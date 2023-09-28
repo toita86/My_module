@@ -5,6 +5,7 @@ from odoo import models, fields, api
 class OffersModel(models.Model):
     _name = "offers_model"
     _description = "Offers Model"
+    _order = "price desc"
 
     validity_days = fields.Integer(default=7)
     partner_id = fields.Many2one('res.partner',required = False)

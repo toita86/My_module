@@ -7,6 +7,7 @@ from odoo.tools.float_utils import float_compare
 class TestModel(models.Model):
     _name = "test_model"
     _description = "Test Model"
+    _order = "id desc"
 
     name = fields.Char(required=True, default = "Unknown")
     description = fields.Text()
@@ -28,27 +29,27 @@ class TestModel(models.Model):
         string = 'List of Choises',
         default = 'option 1'
     )
-    active_property = fields.Boolean(default = True)
+    active = fields.Boolean('active',default = True)
     selling_price = fields.Float(required=True, copy = False)
     #Buttons
-    status = fields.Selection(
+    state = fields.Selection(
         selection = [
                 ('new','New'),
                 ('sold', 'Sold'),
                 ('canceled','Canceled'),
             ],
-        string = 'staus',
+        string = 'Staus',
         default = 'new'
     )
     def action_sold(self):
         for record in self:
-            if record.status == "canceled":
+            if record.state == "canceled":
                 raise exceptions.AccessDenied(message='Cancelled entries cannot be sold')
-            record.status = "sold"
+            record.state = "sold"
         return True
     def action_canceled(self):
         for record in self:
-            record.status = "canceled"
+            record.state = "canceled"
         return True
     #Relations
     entrie_tag_ids = fields.Many2many('tag_model')
@@ -71,17 +72,17 @@ class TestModel(models.Model):
     @api.depends("offers_ids.price")
     def _compute_offers(self):
         for record in self:
-            max_offer = self.env['offers_model'].search(
-                [],
-                order='price desc', limit=1)
-            accepted_offers = self.env['offers_model'].search([(
-                'status', '=', 'accepted')
-            ])
-            if max_offer in accepted_offers:
-                record.best_offer = max_offer.price
-                record._check_best_offer()
+            accepted_offers = self.env['offers_model'].search(
+                [('status', '=', 'accepted')])
+
+            if accepted_offers:
+                max_offer = max(accepted_offers.mapped('price'))
+                if max_offer > 0 :
+                    record.best_offer = max_offer
+                    record._check_best_offer()
+                else:
+                    record.best_offer = 0.0
             else:
-                record._check_best_offer()
                 record.best_offer = 0.0
 
     onchange_check_box = fields.Boolean()
