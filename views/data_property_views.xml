@@ -61,12 +61,12 @@
                                 </group>
                                 <group>
                                     <field name="onchange_check_box"/>
-                                    <field name="onchange_integer"/>
-                                    <field name="onchange_selection"/>
+                                    <field name="onchange_integer" attrs="{'invisible': [('onchange_check_box', '=', False)]}"/>
+                                    <field name="onchange_selection" attrs="{'invisible': [('onchange_check_box', '=', False)]}"/>
                                 </group>
                             </page>
                             <page string="Offers">
-                                <field name="offers_ids"/>
+                                <field name="offers_ids" attrs="{'readonly':[('best_offer', '!=', 0), '|', ('state', '=', 'sold'), '|', ('state', '=', 'canceled')]}"/>
                             </page>
                             <page string="Other Info">
                                 <group>
