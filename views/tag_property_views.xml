@@ -10,7 +10,7 @@
         <field name="name">tag_model.tree</field>
         <field name="model">tag_model</field>
         <field name="arch" type="xml">
-            <tree string="Tests">
+            <tree editable="bottom">
                 <field name="name"/>
             </tree>
         </field>

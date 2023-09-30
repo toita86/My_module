@@ -4,12 +4,12 @@
             <field name="name">offers_model.tree</field>
             <field name="model">offers_model</field>
             <field name="arch" type="xml">
-                <tree string="Tests">
+                <tree decoration-success="status == 'accepted'" decoration-danger="status == 'refused'">
                     <field name="price"/>
                     <field name="partner_id"/>
                     <button name="action_confirm" string="Confirm" type="object" icon="fa-check" attrs="{'invisible': [('status', '=', 'accepted')]}"/>
                     <button name="action_refuse" string="Refuse" type="object" icon="fa-times" attrs="{'invisible': [('status', '=', 'accepted')]}"/>
-                    <field name="status"/>
+                    <field name="status" attrs="{'invisible': [('status', '=', 'refused')]}"/>
                     <field name="validity_days"/>
                     <field name="date_deadline"/>
                 </tree>
