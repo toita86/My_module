@@ -10,7 +10,8 @@
         <field name="name">type_model.tree</field>
         <field name="model">type_model</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <!--<tree editable="bottom">-->
+            <tree string="test">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
             </tree>

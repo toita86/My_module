@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from odoo import api, models, fields, exceptions
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from odoo.tools.float_utils import float_compare
 
 
@@ -35,6 +35,7 @@ class TestModel(models.Model):
     state = fields.Selection(
         selection = [
                 ('new','New'),
+                ('recieved', 'Recieved'),
                 ('sold', 'Sold'),
                 ('canceled','Canceled'),
             ],
@@ -122,3 +123,10 @@ class TestModel(models.Model):
                 precision_digits=2)
             if compare_results < 0:
                 raise ValidationError("The offer can't be lower then 90% of the selling price")
+
+    def unlink(self):
+        for record in self:
+            if record.state in ['new', 'canceled']:
+                raise UserError("The offer can be canceled only if sold")
+
+        return super(TestModel, self).unlink()

@@ -52,3 +52,9 @@ class OffersModel(models.Model):
         'CHECK(price > 0)',
         'The price must be better than 0')
         ]
+
+    @api.model
+    def create(self, vals):
+        prop = self.env['test_model'].browse(vals['property_id'])
+        prop.state = 'recieved'
+        return super().create(vals)
