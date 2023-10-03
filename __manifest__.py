@@ -16,6 +16,8 @@
 
         'views/tag_property_views.xml',
 
-        'views/offers_property_views.xml'
+        'views/offers_property_views.xml',
+
+        'views/inherited_property_views.xml'
     ]
 }

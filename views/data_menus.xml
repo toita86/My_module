@@ -7,6 +7,7 @@
         <menuitem id="types_first_level_menu" name="Types">
             <menuitem id="types_model_menu_action" action="type_model_action" name="entry types"/>
             <menuitem id="tags_model_menu_action" action="tag_model_action" name="entry tags"/>
+            <menuitem id="inherited_model_menu_action" action="inherited_model_action" name="inherited"/>
         </menuitem>
     </menuitem>
 </odoo>
